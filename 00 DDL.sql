@@ -2,19 +2,72 @@
 DROP DATABASE IF EXISTS bd_biblioteca;
 CREATE DATABASE bd_biblioteca;
 USE bd_biblioteca;
-/*
-Genero{
+
+CREATE TABLE Genero(
+    idGenero TINYINT UNSIGNED,
+    genero VARCHAR(45),
+    CONSTRAINT PK_Genero PRIMARY KEY (idGenero)
+);
+
+CREATE TABLE Bibliotecario(
+    idBibliotecario INT UNSIGNED,
+    inicioHoraLaboral DATETIME,
+    finHoraLaboral DATETIME,
+    CONSTRAINT PK_Genero PRIMARY KEY (idBibliotecario)
+);
+
+CREATE TABLE Autor(
+    idAutor PK INT UNSIGNED, 
+    bibliografia VARCHAR(500), 
+    nacimiento DATETIME, 
+    fallecimiento DATETIME,
+    CONSTRAINT PK_Genero PRIMARY KEY (idAutor)
+);
+
+CREATE TABLE Libro(
+    ISBN INT UNSIGNED,
+    idAutor INT UNSIGNED,
+    idGenero TINYINT UNSIGNED,
+    titulo VARCHAR(45),
+    publicacion DATE,
+    calificacion TINYINT UNSIGNED,
+    CONSTRAINT PK_Libro PRIMARY KEY (ISBN)
+    CONSTRAINT FK_Libro_Autor FOREIGN KEY (idAutor)
+        REFERENCES Autor (idAutor),
+    CONSTRAINT FK_Libro_Genero FOREIGN KEY (idGenero)
+        REFERENCES Genero (idGenero)
+);
+
+CREATE TABLE Prestamo(
+    idPrestamo INT UNSIGNED,
+    idBibliotecario INT UNSIGNED,
+    ISBN INT UNSIGNED,
+    fechaEntrega DATE,
+    fechaDevolucion DATE,
+
+);
+CREATE TABLE Cliente(
+    DNI INT UNSIGNED,  --PK
+    idSancion INT UNSIGNED, --fk
+    nombre VARCHAR(45), 
+    apellido VARCHAR(45),
+    CONSTRAINT PK_Genero PRIMARY KEY (DNI),
+    CONSTRAINT FK_Sancion_Cliente FOREIGN KEY (idBibliotecario) 
+        REFERENCES Bibliotecario (idBibliotecario)
+);
+
+CREATE TABLE Sancion(
+    idSancion INT UNSIGNED,  --pk
+    idBibliotecario INT UNSIGNED,  --fk
+    DNI INT UNSIGNED,  --fk
+    fechaEmision DATE, 
+    multa DECIMAL(10,2),
+    CONSTRAINT PK_Genero PRIMARY KEY (idSancion),
+    CONSTRAINT FK_Sancion_Cliente FOREIGN KEY (idBibliotecario) 
+        REFERENCES Bibliotecario (idBibliotecario)
+);
 
 
-    tinyIntUnsigned idGenero PK
-    varchar(45) genero
 
 
-}
 
-*/
-CREATE TABLE(
-    TINYINT UNSIGNED idGenero
-
-
-)
