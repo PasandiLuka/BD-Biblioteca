@@ -17,9 +17,9 @@ CREATE TABLE Bibliotecario(
 );
 
 CREATE TABLE Autor(
-    idAutor PK INT UNSIGNED, 
-    bibliografia VARCHAR(500), 
-    nacimiento DATETIME, 
+    idAutor INT UNSIGNED,
+    bibliografia VARCHAR(500),
+    nacimiento DATETIME,
     fallecimiento DATETIME,
     CONSTRAINT PK_Genero PRIMARY KEY (idAutor)
 );
@@ -31,7 +31,7 @@ CREATE TABLE Libro(
     titulo VARCHAR(45),
     publicacion DATE,
     calificacion TINYINT UNSIGNED,
-    CONSTRAINT PK_Libro PRIMARY KEY (ISBN)
+    CONSTRAINT PK_Libro PRIMARY KEY (ISBN),
     CONSTRAINT FK_Libro_Autor FOREIGN KEY (idAutor)
         REFERENCES Autor (idAutor),
     CONSTRAINT FK_Libro_Genero FOREIGN KEY (idGenero)
@@ -44,22 +44,24 @@ CREATE TABLE Prestamo(
     ISBN INT UNSIGNED,
     fechaEntrega DATE,
     fechaDevolucion DATE,
-
+    CONSTRAINT PK_Prestamo PRIMARY KEY (idPrestamo),
+    CONSTRAINT FK_Prestamo_Bibliotecario FOREIGN KEY (idBibliotecario)
+        REFERENCES Bibliotecario (idBibliotecario),
+    CONSTRAINT FK_Prestamo_Libro FOREIGN KEY (ISBN)
+        REFERENCES Libro (ISBN)
 );
+
 CREATE TABLE Cliente(
-    DNI INT UNSIGNED,  --PK
-    idSancion INT UNSIGNED, --fk
-    nombre VARCHAR(45), 
+    DNI INT UNSIGNED,
+    nombre VARCHAR(45),
     apellido VARCHAR(45),
-    CONSTRAINT PK_Genero PRIMARY KEY (DNI),
-    CONSTRAINT FK_Sancion_Cliente FOREIGN KEY (idBibliotecario) 
-        REFERENCES Bibliotecario (idBibliotecario)
+    CONSTRAINT PK_Cliente PRIMARY KEY (DNI)
 );
 
 CREATE TABLE Sancion(
-    idSancion INT UNSIGNED,  --pk
-    idBibliotecario INT UNSIGNED,  --fk
-    DNI INT UNSIGNED,  --fk
+    idSancion INT UNSIGNED,
+    idBibliotecario INT UNSIGNED,
+    DNI INT UNSIGNED,
     fechaEmision DATE, 
     multa DECIMAL(10,2),
     CONSTRAINT PK_Genero PRIMARY KEY (idSancion),
@@ -67,7 +69,27 @@ CREATE TABLE Sancion(
         REFERENCES Bibliotecario (idBibliotecario)
 );
 
+CREATE TABLE Prestamo(
+    idPrestamo INT UNSIGNED,
+    idBibliotecario INT UNSIGNED,
+    ISBN INT UNSIGNED,
+    fechaEntrega DATE,
+    fechaDevolucion DATE,
+    CONSTRAINT PK_Prestamo PRIMARY KEY (idPrestamo),
+    CONSTRAINT FK_Prestamo_Bibliotecario FOREIGN KEY (idBibliotecario)
+        REFERENCES Bibliotecario (idBibliotecario),
+    CONSTRAINT FK_Prestamo_Libro FOREIGN KEY (ISBN)
+        REFERENCES Libro (ISBN)
+);
 
 
-
-
+CREATE TABLE Libro-Autor(
+    ISBN INT UNSIGNED,
+    idAutor INT UNSIGNED,
+    CONSTRAINT PK_Libro-Autor PRIMARY KEY (ISBN),
+    CONSTRAINT PK_Libro-Autor PRIMARY KEY (idAutor),
+    CONSTRAINT FK_Libro-Autor_Libro FOREIGN KEY (ISBN)
+        REFERENCES Libro (ISBN),
+    CONSTRAINT FK_Libro-Autor_Autor FOREIGN KEY (idAutor)
+        REFERENCES Autor (idAutor)
+);
