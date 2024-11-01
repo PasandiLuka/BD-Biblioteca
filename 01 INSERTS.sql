@@ -14,7 +14,7 @@ INSERT INTO Bibliotecario(idBibliotecario, nombre, inicioHoraLaboral,finHoraLabo
 
 INSERT INTO Autor(idAutor, nombre, bibliografia, nacimiento, fallecimiento)
     VALUES (1, "Luis", "Una gran persona", "2000-10-05", NULL),
-           (2, "", "Le sabe", "1990-05-27", NULL),
+           (2, "Hernan", "Le sabe", "1990-05-27", NULL),
            (3, "Isaias", "Copado", "2005-02-24", NULL)
     ;
 
