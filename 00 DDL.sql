@@ -68,27 +68,12 @@ CREATE TABLE Sancion(
         REFERENCES Bibliotecario (idBibliotecario)
 );
 
-CREATE TABLE Prestamo(
-    idPrestamo INT UNSIGNED,
-    idBibliotecario INT UNSIGNED,
-    ISBN INT UNSIGNED,
-    fechaEntrega DATE,
-    fechaDevolucion DATE,
-    CONSTRAINT PK_Prestamo PRIMARY KEY (idPrestamo),
-    CONSTRAINT FK_Prestamo_Bibliotecario FOREIGN KEY (idBibliotecario)
-        REFERENCES Bibliotecario (idBibliotecario),
-    CONSTRAINT FK_Prestamo_Libro FOREIGN KEY (ISBN)
-        REFERENCES Libro (ISBN)
-);
-
-
-CREATE TABLE Libro-Autor(
+CREATE TABLE Libro_Autor(
     ISBN INT UNSIGNED,
     idAutor INT UNSIGNED,
-    CONSTRAINT PK_Libro-Autor PRIMARY KEY (ISBN),
-    CONSTRAINT PK_Libro-Autor PRIMARY KEY (idAutor),
-    CONSTRAINT FK_Libro-Autor_Libro FOREIGN KEY (ISBN)
+    PRIMARY KEY(ISBN,idAutor),
+    CONSTRAINT FK_Libro_Autor_Libro FOREIGN KEY (ISBN)
         REFERENCES Libro (ISBN),
-    CONSTRAINT FK_Libro-Autor_Autor FOREIGN KEY (idAutor)
+    CONSTRAINT FK_Libro_Autor_Autor FOREIGN KEY (idAutor)
         REFERENCES Autor (idAutor)
 );
