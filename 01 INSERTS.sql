@@ -1,4 +1,3 @@
--- Active: 1730394017360@@127.0.0.1@3306@bd_biblioteca
 INSERT INTO Genero(idGenero, genero)
     VALUES (1,"Terror"),
            (2,"Aventura"),
@@ -27,7 +26,7 @@ INSERT INTO Cliente (DNI, nombre, apellido)
 
 INSERT INTO Libro(ISBN, idAutor,idOtroAutor, idGenero, titulo, publicacion, calificacion)
     VALUES (1, 1, NULL, 3, "Introduccion SQL", "2023-07-12", 7),
-           (2, 1,NULL, 3, "Introduccion MERMAID", "2021-07-17", 6),
+           (2, 1, NULL, 3, "Introduccion MERMAID", "2021-07-17", 6),
            (3, 2, NULL, 3, "Teorema de Bool", "2000-07-25", 9),
            (4, 2, NULL, 3, "Compuertas Logicas", "2012-04-26", 5),
            (5, 1, 2, 3, "Las Leyes en la Institucion", "2016-02-28", 1)
