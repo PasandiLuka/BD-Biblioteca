@@ -1,15 +1,17 @@
+<br>
 <h1 align= "center">BD_Biblioteca</h1>
 <br>
 
 ## Integrantes
 
-<pre>
-    Algañaras Diego
-    Fernandez Leonel
-    Pasandi Luka
-</pre>
+- Algañaras Diego
+- Fernandez Leonel
+- Pasandi Luka
+
 
 ## DER
+
+<div align="center">
 
 ```mermaid
 erDiagram
@@ -85,6 +87,7 @@ Autor||--o{Libro:""
 
 
 ```
+</div>
 
 ## Consultas
 
@@ -130,4 +133,3 @@ LEFT JOIN Sancion S ON B.idBibliotecario = S.idBibliotecario
 GROUP BY B.idBibliotecario
 HAVING TotalSanciones > 1;
 ```
-
