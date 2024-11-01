@@ -41,7 +41,7 @@ Cliente{
     varchar(45) apellido
 }
 
-Libros{
+Libro{
     intUnsigned ISBN PK
     intUnsigned idAutor FK
     intUnsigned idOtroAutor FK
@@ -60,11 +60,6 @@ Sancion{
     Decimal(10-2) multa    
 }
 
-Libros-Autor{
-    intUnsigned idAutor PK,FK
-    intUnsigned ISBN PK,FK
-}
-
 Prestamo{
     intUnsigned idPrestamo PK
     intUnsigned idBibliotecario FK
@@ -74,15 +69,21 @@ Prestamo{
     Date fechaDevolucion
 }
 
-Genero||--o{Libros:""
-Autor||--o{Libros-Autor:""
-Libros-Autor}o--||Libros:""
+Prestamo_Libro{
+    intUnsigned idPrestamo PK, FK
+    intUnsigned ISBN PK, FK
+}
+
+Genero||--o{Libro:""
 Bibliotecario||--o{Sancion:""
 Bibliotecario||--o{Prestamo:""
-Libros||--o|Prestamo:""
+Libro||--o|Prestamo:""
 Cliente||--o{Prestamo:""
 Prestamo||--o|Sancion:""
-Cliente||--o{Sancion:""
+Libro||--o{Prestamo_Libro:""
+Prestamo||--o{Prestamo_Libro:""
+Autor||--o{Libro:""
+
 
 ```
 

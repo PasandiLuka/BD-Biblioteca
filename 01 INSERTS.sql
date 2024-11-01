@@ -33,13 +33,7 @@ INSERT INTO Libro(ISBN, idAutor,idOtroAutor, idGenero, titulo, publicacion, cali
     ;
 
 INSERT INTO Sancion (idSancion, idBibliotecario, DNI, fechaEmision, multa)
-    VALUES (1, 1, 87654321, "2023-11-14", 10000.00)
-    ;
-
-INSERT INTO Libro_Autor (ISBN, idAutor)
-    SELECT ISBN, A.idAutor
-    FROM Libro L
-    INNER JOIN Autor A ON A.idAutor=L.idAutor
+    VALUES (1, 1, "2023-11-14", 10000.00)
     ;
 
 INSERT INTO Prestamo (idPrestamo, idBibliotecario, ISBN, DNI, fechaEntrega, fechaDevolucion)
@@ -48,3 +42,8 @@ INSERT INTO Prestamo (idPrestamo, idBibliotecario, ISBN, DNI, fechaEntrega, fech
            (3, 1, 1, 87654321, "2023-10-14", "2023-11-14"),
            (4, 3, 5, 12345678, "2024-11-01", "2024-12-01")
     ;
+
+INSERT INTO Prestamo_Libro (idPrestamo, ISBN)
+    SELECT idPrestamo, L.ISBN
+    FROM Prestamo P
+    INNER JOIN Libro L ON L.ISBN=P.ISBN
