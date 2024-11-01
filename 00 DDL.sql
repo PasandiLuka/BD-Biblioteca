@@ -35,6 +35,7 @@ CREATE TABLE Cliente(
 CREATE TABLE Libro(
     ISBN INT UNSIGNED,
     idAutor INT UNSIGNED,
+    idOtroAutor INT UNSIGNED,
     idGenero TINYINT UNSIGNED,
     titulo VARCHAR(45) NOT NULL,
     publicacion DATE NOT NULL,
@@ -42,21 +43,10 @@ CREATE TABLE Libro(
     CONSTRAINT PK_Libro PRIMARY KEY (ISBN),
     CONSTRAINT FK_Libro_Autor FOREIGN KEY (idAutor)
         REFERENCES Autor (idAutor),
+    CONSTRAINT FK_Libro_OtroAutor FOREIGN KEY (idOtroAutor)
+        REFERENCES Autor (idAutor),
     CONSTRAINT FK_Libro_Genero FOREIGN KEY (idGenero)
         REFERENCES Genero (idGenero)
-);
-
-CREATE TABLE Prestamo(
-    idPrestamo INT UNSIGNED,
-    idBibliotecario INT UNSIGNED,
-    ISBN INT UNSIGNED,
-    fechaEntrega DATE NOT NULL,
-    fechaDevolucion DATE NOT NULL,
-    CONSTRAINT PK_Prestamo PRIMARY KEY (idPrestamo),
-    CONSTRAINT FK_Prestamo_Bibliotecario FOREIGN KEY (idBibliotecario)
-        REFERENCES Bibliotecario (idBibliotecario),
-    CONSTRAINT FK_Prestamo_Libro FOREIGN KEY (ISBN)
-        REFERENCES Libro (ISBN)
 );
 
 CREATE TABLE Sancion(
@@ -66,8 +56,10 @@ CREATE TABLE Sancion(
     fechaEmision DATE NOT NULL, 
     multa DECIMAL(10,2) NOT NULL,
     CONSTRAINT PK_Genero PRIMARY KEY (idSancion),
-    CONSTRAINT FK_Sancion_Cliente FOREIGN KEY (idBibliotecario) 
-        REFERENCES Bibliotecario (idBibliotecario)
+    CONSTRAINT FK_Sancion_Bibliotecario FOREIGN KEY (idBibliotecario) 
+        REFERENCES Bibliotecario (idBibliotecario),
+    CONSTRAINT FK_Sancion_Cliente FOREIGN KEY (DNI)
+        REFERENCES Cliente (DNI)
 );
 
 CREATE TABLE Libro_Autor(
@@ -78,4 +70,20 @@ CREATE TABLE Libro_Autor(
         REFERENCES Libro (ISBN),
     CONSTRAINT FK_Libro_Autor_Autor FOREIGN KEY (idAutor)
         REFERENCES Autor (idAutor)
+);
+
+CREATE TABLE Prestamo(
+    idPrestamo INT UNSIGNED,
+    idBibliotecario INT UNSIGNED,
+    ISBN INT UNSIGNED,
+    DNI INT UNSIGNED,
+    fechaEntrega DATE NOT NULL,
+    fechaDevolucion DATE NOT NULL,
+    CONSTRAINT PK_Prestamo PRIMARY KEY (idPrestamo),
+    CONSTRAINT FK_Prestamo_Bibliotecario FOREIGN KEY (idBibliotecario)
+        REFERENCES Bibliotecario (idBibliotecario),
+    CONSTRAINT FK_Prestamo_Libro FOREIGN KEY (ISBN)
+        REFERENCES Libro (ISBN),
+    CONSTRAINT FK_Prestamo_Cliente FOREIGN KEY (DNI)
+        REFERENCES Cliente (DNI)
 );
