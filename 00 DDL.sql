@@ -49,18 +49,6 @@ CREATE TABLE Libro(
         REFERENCES Genero (idGenero)
 );
 
-CREATE TABLE Sancion(
-    idSancion INT UNSIGNED,
-    idBibliotecario INT UNSIGNED,
-    fechaEmision DATE NOT NULL, 
-    multa DECIMAL(10,2) NOT NULL,
-    CONSTRAINT PK_Genero PRIMARY KEY (idSancion),
-    CONSTRAINT FK_Sancion_Bibliotecario FOREIGN KEY (idBibliotecario) 
-        REFERENCES Bibliotecario (idBibliotecario),
-    CONSTRAINT FK_Sancion_Cliente FOREIGN KEY (DNI)
-        REFERENCES Cliente (DNI)
-);
-
 CREATE TABLE Prestamo(
     idPrestamo INT UNSIGNED,
     idBibliotecario INT UNSIGNED,
@@ -75,6 +63,19 @@ CREATE TABLE Prestamo(
         REFERENCES Libro (ISBN),
     CONSTRAINT FK_Prestamo_Cliente FOREIGN KEY (DNI)
         REFERENCES Cliente (DNI)
+);
+
+CREATE TABLE Sancion(
+    idSancion INT UNSIGNED,
+    idBibliotecario INT UNSIGNED,
+    idPrestamo INT UNSIGNED,
+    fechaEmision DATE NOT NULL, 
+    multa DECIMAL(10,2) NOT NULL,
+    CONSTRAINT PK_Genero PRIMARY KEY (idSancion),
+    CONSTRAINT FK_Sancion_Bibliotecario FOREIGN KEY (idBibliotecario) 
+        REFERENCES Bibliotecario (idBibliotecario),
+    CONSTRAINT FK_Sancion_Prestamo FOREIGN KEY (idPrestamo)
+        REFERENCES Prestamo (idPrestamo)
 );
 
 CREATE TABLE Prestamo_Libro(
