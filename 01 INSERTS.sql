@@ -43,13 +43,6 @@ INSERT INTO Libro(ISBN, idAutor,idOtroAutor, idGenero, titulo, publicacion, cali
 
     ;
 
-INSERT INTO Sancion (idSancion, idBibliotecario, fechaEmision, multa)
-    VALUES (1, 3, "2021-06-14",5000.00),
-           (2, 2, "2021-08-28", 7500.00),
-           (3, 4, "2022-09-08", 5000.00),
-           (4, 1, "2024-12-01", 10000.00)
-    ;
-
 INSERT INTO Prestamo (idPrestamo, idBibliotecario, ISBN, DNI, fechaEntrega, fechaDevolucion)
     VALUES (1, 4, 4, 78235164, "2021-05-14", "2021-06-14"),
            (2, 2, 3, 23145678, "2021-05-14", "2021-06-14"),
@@ -67,6 +60,13 @@ INSERT INTO Prestamo (idPrestamo, idBibliotecario, ISBN, DNI, fechaEntrega, fech
            (14, 1, 1, 87654321, "2023-08-14", "2023-09-14"),
            (15, 1, 1, 87654321, "2023-10-14", "2023-11-14"),
            (16, 3, 6, 12345678, "2024-11-01", "2024-12-01")
+    ;
+
+INSERT INTO Sancion (idSancion, idBibliotecario, idPrestamo, fechaEmision, multa)
+    VALUES (1, 3, 2 , "2021-06-14",5000.00),
+           (2, 2, 5 , "2021-08-28", 7500.00),
+           (3, 4, 8 ,"2022-09-08", 5000.00),
+           (4, 1, 16 ,"2024-12-01", 10000.00)
     ;
 
 INSERT INTO Prestamo_Libro (idPrestamo, ISBN)
