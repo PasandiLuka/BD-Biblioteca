@@ -90,14 +90,14 @@ Autor||--o{Libro:""
 
 ## Consultas
 
-- Obtener el número total de libros por género, incluyendo géneros sin libros, la cantidad de libros renombrarla como "TotalLibros", ordenar por cantidad de libros de menor a mayor.
+- Obtener el número total de libros por género, incluyendo géneros sin libros, la cantidad de libros renombrarla como "TotalLibros", ordenar por cantidad de libros de mayor a menor.
 
 ```sql
-SELECT G.genero, COUNT(ISBN) AS TotalLibros
+SELECT genero, COUNT(ISBN) AS TotalLibros
 FROM Genero G
 LEFT JOIN Libro L ON G.idGenero = L.idGenero
-GROUP BY G.idGenero
-ORDER BY COUNT(ISBN) ASC;
+GROUP BY genero
+ORDER BY COUNT(ISBN) DESC;
 ```
 
 - Mostrar los géneros que tienen más de un libro.
