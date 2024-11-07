@@ -32,7 +32,7 @@ Bibliotecario{
 Autor{
     intUnsigned idAutor PK
     varchar(45) nombre
-    varchar(500) autoBiografia
+    varchar(500) bibliografia
     Date nacimiento
     Date fallecimiento
 }
@@ -85,51 +85,62 @@ Libro||--o{Prestamo_Libro:""
 Prestamo||--o{Prestamo_Libro:""
 Autor||--o{Libro:""
 
-
 ```
 </div>
 
 ## Consultas
 
-- Obtener el número total de libros por género, incluyendo géneros sin libros.
+- Obtener el número total de libros por género, incluyendo géneros sin libros, la cantidad de libros renombrarla como "TotalLibros", ordenar por cantidad de libros de menor a mayor.
+
 ```sql
-SELECT G.genero, COUNT(L.ISBN) AS TotalLibros
+SELECT G.genero, COUNT(ISBN) AS TotalLibros
 FROM Genero G
-LEFT JOIN Libros L ON G.idGenero = L.idGenero
-GROUP BY G.idGenero;
-```
-- Obtener los géneros que tienen más de 2 libros
-```sql
-SELECT G.genero, COUNT(L.ISBN) AS TotalLibros
-FROM Genero G
-LEFT JOIN Libros L ON G.idGenero = L.idGenero
+LEFT JOIN Libro L ON G.idGenero = L.idGenero
 GROUP BY G.idGenero
-HAVING TotalLibros > 2;
+ORDER BY COUNT(ISBN) ASC;
 ```
-- Listar bibliotecarios que han emitido más de 5 préstamos
+
+- Mostrar los géneros que tienen más de un libro.
+
 ```sql
-SELECT B.idBibliotecario, COUNT(P.idPrestamo) AS TotalPrestamos
+SELECT G.genero, COUNT(L.ISBN) AS TotalLibros
+FROM Genero G
+LEFT JOIN Libro L ON G.idGenero = L.idGenero
+GROUP BY G.idGenero
+HAVING TotalLibros > 1;
+```
+
+- Mostrar el nombre de los bibliotecarios y su cantidad de prestamos, solo si han emitido mas de 4, ordenar de mayor a menor por cantidad de prestamos.
+
+```sql
+SELECT nombre, COUNT(idPrestamo) AS TotalPrestamos
 FROM Bibliotecario B
 LEFT JOIN Prestamo P ON B.idBibliotecario = P.idBibliotecario
-GROUP BY B.idBibliotecario
-HAVING TotalPrestamos > 5;
+GROUP BY nombre
+HAVING TotalPrestamos > 4
+ORDER BY COUNT(idPrestamo);
 ```
-- Obtener los autores que han emitido más de 3 libros y su año de nacimiento
+
+- Obtener el nombre y la fecha de nacimiento de aquellos autores que hayan emitido 2 o mas libros, ordenar de menor a mayor por año de nacimiento. 
 
 ```sql
-SELECT A.autoBiografia, COUNT(L.ISBN) AS TotalLibros, A.nacimiento
+SELECT nombre, nacimiento
 FROM Autor A
-LEFT JOIN Libros L ON A.DNI = L.idAutor
-GROUP BY A.DNI, A.autoBiografia, A.nacimiento
-HAVING TotalLibros > 3;
+LEFT JOIN Libro L ON L.idAutor = A.idAutor
+GROUP BY nombre, nacimiento
+HAVING COUNT(*) > 2
+ORDER BY nacimiento ASC;
 ```
 
-- Contar el número de sanciones emitidas por cada bibliotecario y mostrar solo aquellos que tienen más de 1 sanción
+- Mostrar el nombre del bibliotecario, la cantidad de sanciones que emitio, y el destinatario de las sanciones, solo si la multa supera los 5000, ordenar por el nombre de los bibliotecarios de menor a mayor.
 
 ```sql
-SELECT B.idBibliotecario, COUNT(S.idSancion) AS TotalSanciones
+SELECT B.nombre, COUNT(*) AS TotalSanciones, C.nombre
 FROM Bibliotecario B
-LEFT JOIN Sancion S ON B.idBibliotecario = S.idBibliotecario
-GROUP BY B.idBibliotecario
-HAVING TotalSanciones > 1;
+INNER JOIN Sancion S ON B.idBibliotecario = S.idBibliotecario
+INNER JOIN Prestamo P ON P.idPrestamo = S.idPrestamo
+INNER JOIN Cliente C ON C.DNI = P.DNI 
+WHERE multa > 5000
+GROUP BY B.nombre, C.nombre
+ORDER BY B.nombre;
 ```
