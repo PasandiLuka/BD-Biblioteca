@@ -78,7 +78,6 @@ Prestamo_Libro{
 Genero||--o{Libro:""
 Bibliotecario||--o{Sancion:""
 Bibliotecario||--o{Prestamo:""
-Libro||--o|Prestamo:""
 Cliente||--o{Prestamo:""
 Prestamo||--o|Sancion:""
 Libro||--o{Prestamo_Libro:""
@@ -105,7 +104,7 @@ ORDER BY COUNT(ISBN) DESC;
 ```sql
 SELECT G.genero, COUNT(L.ISBN) AS TotalLibros
 FROM Genero G
-LEFT JOIN Libro L ON G.idGenero = L.idGenero
+INNER JOIN Libro L ON G.idGenero = L.idGenero
 GROUP BY G.idGenero
 HAVING TotalLibros > 1;
 ```
@@ -115,7 +114,7 @@ HAVING TotalLibros > 1;
 ```sql
 SELECT nombre, COUNT(idPrestamo) AS TotalPrestamos
 FROM Bibliotecario B
-LEFT JOIN Prestamo P ON B.idBibliotecario = P.idBibliotecario
+INNER JOIN Prestamo P ON B.idBibliotecario = P.idBibliotecario
 GROUP BY nombre
 HAVING TotalPrestamos > 4
 ORDER BY COUNT(idPrestamo);
@@ -126,7 +125,7 @@ ORDER BY COUNT(idPrestamo);
 ```sql
 SELECT nombre, nacimiento
 FROM Autor A
-LEFT JOIN Libro L ON L.idAutor = A.idAutor
+INNER JOIN Libro L ON L.idAutor = A.idAutor
 GROUP BY nombre, nacimiento
 HAVING COUNT(*) > 2
 ORDER BY nacimiento ASC;
