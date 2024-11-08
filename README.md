@@ -66,6 +66,7 @@ Prestamo{
     intUnsigned idPrestamo PK
     intUnsigned idBibliotecario FK
     intUnsigned ISBN FK
+    intUnsigned DNI FK
     Date fechaEntrega
     Date fechaDevolucion
 }
@@ -102,10 +103,10 @@ ORDER BY COUNT(ISBN) DESC;
 - Mostrar los géneros que tienen más de un libro.
 
 ```sql
-SELECT G.genero, COUNT(L.ISBN) AS TotalLibros
+SELECT genero, COUNT(L.ISBN) AS TotalLibros
 FROM Genero G
 INNER JOIN Libro L ON G.idGenero = L.idGenero
-GROUP BY G.idGenero
+GROUP BY genero
 HAVING TotalLibros > 1;
 ```
 
