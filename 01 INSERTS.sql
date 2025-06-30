@@ -1,3 +1,5 @@
+USE bd_biblioteca;
+
 INSERT INTO Genero(idGenero, genero)
     VALUES (1, "Terror"),
            (2, "Aventura"),
@@ -31,15 +33,15 @@ INSERT INTO Cliente (DNI, nombre, apellido)
            (78235164, "Leonel", "Fernandez")
     ;
 
-INSERT INTO Libro(ISBN, idAutor,idOtroAutor, idGenero, titulo, publicacion, calificacion)
-    VALUES (1, 1, NULL, 3, "Introduccion SQL", "2021-07-12", 7),
-           (2, 1, NULL, 3, "Introduccion MERMAID", "2021-07-17", 6),
-           (3, 1, NULL, 1, "Historias Salteñas", "2015-04-12", 8),
-           (4, 2, NULL, 3, "Teorema de Bool", "2000-07-25", 9),
-           (5, 2, NULL, 3, "Compuertas Logicas", "2012-04-26", 5),
-           (6, 2, NULL, 3, "Hay una Ley...", "2016-02-28", 1),
-           (7, 4, NULL, 2, "Secreto de la Montaña", "2014-07-28", 1),
-           (8, 4, NULL, 4, "El Javi", "2023-06-25", 10)
+INSERT INTO Libro(ISBN, idAutor,idOtroAutor, idGenero, titulo, publicacion)
+    VALUES (1, 1, NULL, 3, "Introduccion SQL", "2021-07-12"),
+           (2, 1, NULL, 3, "Introduccion MERMAID", "2021-07-17"),
+           (3, 1, NULL, 1, "Historias Salteñas", "2015-04-12"),
+           (4, 2, NULL, 3, "Teorema de Bool", "2000-07-25"),
+           (5, 2, NULL, 3, "Compuertas Logicas", "2012-04-26"),
+           (6, 2, NULL, 3, "Hay una Ley...", "2016-02-28"),
+           (7, 4, NULL, 2, "Secreto de la Montaña", "2014-07-28"),
+           (8, 4, NULL, 4, "El Javi", "2023-06-25")
 
     ;
 
@@ -63,11 +65,22 @@ INSERT INTO Prestamo (idPrestamo, idBibliotecario, ISBN, DNI, fechaEntrega, fech
     ;
 
 INSERT INTO Sancion (idSancion, idBibliotecario, idPrestamo, fechaEmision, multa)
-    VALUES (1, 3, 2 , "2021-06-14",5000.00),
+    VALUES (1, 3, 2 , "2021-06-14", 5000.00),
            (2, 2, 5 , "2021-08-28", 7500.00),
-           (3, 4, 8 ,"2022-09-08", 5000.00),
+           (3, 4, 8 , "2022-09-08", 5000.00),
            (4, 1, 16 ,"2024-12-01", 10000.00)
     ;
+
+INSERT INTO Calificacion (idCalificacion, ISBN, DNI, calificacion)
+    VALUES (1, 1, 78235164, 1),
+           (2, 2, 12345678, 10),
+           (3, 1, 87654321, 4),
+           (4, 1, 78235164, 6),
+           (5, 1, 87654321, 3),
+           (6, 1, 12345678, 4),
+           (7, 1, 87654321, 2.5),
+           (8, 1, 12345678, 9.9),
+           (9, 1, 87654321, 7.3);
 
 INSERT INTO Prestamo_Libro (idPrestamo, ISBN)
     SELECT idPrestamo, L.ISBN

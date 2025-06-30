@@ -39,7 +39,7 @@ CREATE TABLE Libro(
     idGenero TINYINT UNSIGNED,
     titulo VARCHAR(45) NOT NULL,
     publicacion DATE NOT NULL,
-    calificacion TINYINT UNSIGNED NOT NULL,
+    calificacion DECIMAL(10,2) NOT NULL DEFAULT 0,
     CONSTRAINT PK_Libro PRIMARY KEY (ISBN),
     CONSTRAINT FK_Libro_Autor FOREIGN KEY (idAutor)
         REFERENCES Autor (idAutor),
@@ -77,6 +77,28 @@ CREATE TABLE Sancion(
     CONSTRAINT FK_Sancion_Prestamo FOREIGN KEY (idPrestamo)
         REFERENCES Prestamo (idPrestamo)
 );
+
+CREATE TABLE Calificacion(
+    idCalificacion INT UNSIGNED,
+    ISBN INT UNSIGNDELIMITER $$
+DROP TRIGGER IF EXISTS aftInsCalificacion $$
+CREATE TRIGGER aftInsCalificacion AFTER INSERT ON Calificacion
+FOR EACH ROW
+BEGIN
+    UPDATE Libro
+    SET calificacion = (SELECT AVG(calificacion)
+                       FROM Calificacion
+                       WHERE ISBN = NEW.ISBN)
+    WHERE ISBN = NEW.ISBN;
+END $$ED,
+    DNI INT UNSIGNED,
+    calificacion TINYINT UNSIGNED,
+    CONSTRAINT PK_Calificacion PRIMARY KEY (idCalificacion),
+    CONSTRAINT FK_Calificacion_Libro FOREIGN KEY (ISBN)
+        REFERENCES Libro (ISBN),
+    CONSTRAINT FK_Calificacion_Cliente FOREIGN KEY (DNI)
+        REFERENCES Cliente (DNI)
+)
 
 CREATE TABLE Prestamo_Libro(
     idPrestamo INT UNSIGNED,
