@@ -47,6 +47,7 @@ Libro{
     varchar(45) Titulo
     Date Publicacion
     Decimal(10-2) calificacion
+    bool disponible
 }
 
 Sancion{

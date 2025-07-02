@@ -40,6 +40,7 @@ CREATE TABLE Libro(
     titulo VARCHAR(45) NOT NULL,
     publicacion DATE NOT NULL,
     calificacion DECIMAL(10,2) NOT NULL DEFAULT 0,
+    disponible BOOLEAN DEFAULT 1,
     CONSTRAINT PK_Libro PRIMARY KEY (ISBN),
     CONSTRAINT FK_Libro_Autor FOREIGN KEY (idAutor)
         REFERENCES Autor (idAutor),
