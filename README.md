@@ -73,7 +73,7 @@ Calificacion{
     intUnsigned idCalificacion PK
     intUnsigned ISBN FK
     intUnsigned DNI FK
-    tinyIntUnsigned calificacion
+    Decimal(10-2) calificacion
 }
 
 Prestamo_Libro{
@@ -159,7 +159,7 @@ ORDER BY B.nombre;
 DELIMITER $$
 DROP FUNCTION IF EXISTS sumaMultas $$
 CREATE FUNCTION SumaMultas (unDNI INT UNSIGNED, minFecha DATE, maxFecha DATE)
-RETURNS DECIMAL
+RETURNS DECIMAL(10,2)
 READS SQL DATA
 BEGIN
     DECLARE sumaMultas DECIMAL;

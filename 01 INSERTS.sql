@@ -74,7 +74,7 @@ INSERT INTO Sancion (idSancion, idBibliotecario, idPrestamo, fechaEmision, multa
 INSERT INTO Calificacion (idCalificacion, ISBN, DNI, calificacion)
     VALUES (1, 1, 78235164, 1),
            (2, 2, 12345678, 10),
-           (3, 1, 87654321, 4),
+           (3, 1, 87654321, 4.1),
            (4, 1, 78235164, 6),
            (5, 1, 87654321, 3),
            (6, 1, 12345678, 4),

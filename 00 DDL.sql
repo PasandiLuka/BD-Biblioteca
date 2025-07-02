@@ -82,13 +82,13 @@ CREATE TABLE Calificacion(
     idCalificacion INT UNSIGNED,
     ISBN INT UNSIGNED,
     DNI INT UNSIGNED,
-    calificacion TINYINT UNSIGNED,
+    calificacion DECIMAL(10,2),
     CONSTRAINT PK_Calificacion PRIMARY KEY (idCalificacion),
     CONSTRAINT FK_Calificacion_Libro FOREIGN KEY (ISBN)
         REFERENCES Libro (ISBN),
     CONSTRAINT FK_Calificacion_Cliente FOREIGN KEY (DNI)
         REFERENCES Cliente (DNI)
-)
+);
 
 CREATE TABLE Prestamo_Libro(
     idPrestamo INT UNSIGNED,
