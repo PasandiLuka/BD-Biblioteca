@@ -56,6 +56,7 @@ CREATE TABLE Prestamo(
     DNI INT UNSIGNED,
     fechaEntrega DATE NOT NULL,
     fechaDevolucion DATE NOT NULL,
+    devuelto BOOLEAN DEFAULT 0,
     CONSTRAINT PK_Prestamo PRIMARY KEY (idPrestamo),
     CONSTRAINT FK_Prestamo_Bibliotecario FOREIGN KEY (idBibliotecario)
         REFERENCES Bibliotecario (idBibliotecario),

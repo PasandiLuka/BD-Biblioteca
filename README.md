@@ -18,14 +18,12 @@ Genero{
     varchar(45) genero
 }
 
-
 Bibliotecario{
     intUnsigned idBibliotecario PK
     varchar(45) nombre
     Time inicioHorarioLaboral
     Time finHorarioLaboral
 }
-
 
 Autor{
     intUnsigned idAutor PK
@@ -51,13 +49,12 @@ Libro{
     Decimal(10-2) calificacion
 }
 
-
 Sancion{
     intUnsigned idSancion PK
     intUnsigned idBibliotecario FK
     intUnsigned idPrestamo FK
     Date fechaEmision
-    Decimal(10-2) multa    
+    Decimal(10-2) multa
 }
 
 Prestamo{
@@ -67,6 +64,7 @@ Prestamo{
     intUnsigned DNI FK
     Date fechaEntrega
     Date fechaDevolucion
+    bool devuelto
 }
 
 Calificacion{
