@@ -35,4 +35,18 @@ BEGIN
     END IF;
 END $$
 
--- No se puede hacer un prestamo si el libro no esta disponible
+-- No se puede hacer un prestamo si el libro no esta disponible:
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS befInsPrestamo $$
+CREATE TRIGGER befInsPrestamo BEFORE INSERT ON Prestamo
+FOR EACH ROW
+BEGIN
+    IF (!(SELECT disponible
+          FROM Libro
+          WHERE ISBN = NEW.ISBN))
+    THEN
+        SIGNAL SQLSTATE "45000"
+        SET MESSAGE_TEXT = "El libro que se quiere utilizar no se encuentra disponible";
+    END IF;
+END $$

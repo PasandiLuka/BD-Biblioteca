@@ -22,7 +22,8 @@ CREATE TABLE Autor(
     bibliografia VARCHAR(500) NOT NULL,
     nacimiento DATE NOT NULL,
     fallecimiento DATE,
-    CONSTRAINT PK_Genero PRIMARY KEY (idAutor)
+    CONSTRAINT PK_Genero PRIMARY KEY (idAutor),
+    CONSTRAINT CHK_Autor CHECK (fallecimiento IS NULL OR fallecimiento > nacimiento)
 );
 
 CREATE TABLE Cliente(
@@ -84,12 +85,13 @@ CREATE TABLE Calificacion(
     idCalificacion INT UNSIGNED,
     ISBN INT UNSIGNED,
     DNI INT UNSIGNED,
-    calificacion DECIMAL(10,2),
+    calificacion TINYINT UNSIGNED,
     CONSTRAINT PK_Calificacion PRIMARY KEY (idCalificacion),
     CONSTRAINT FK_Calificacion_Libro FOREIGN KEY (ISBN)
         REFERENCES Libro (ISBN),
     CONSTRAINT FK_Calificacion_Cliente FOREIGN KEY (DNI)
-        REFERENCES Cliente (DNI)
+        REFERENCES Cliente (DNI),
+    CONSTRAINT CHK_Calificacion CHECK (calificacion BETWEEN 0 AND 10)
 );
 
 CREATE TABLE Prestamo_Libro(

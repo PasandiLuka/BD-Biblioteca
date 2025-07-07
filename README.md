@@ -3,9 +3,9 @@
 
 ## Integrantes
 
-- Algañaras Diego
-- Lopez Angel
-- Pasandi Luka
+- ### Algañaras Diego
+- ### Lopez Angel
+- ### Pasandi Luka
 
 # DER
 
@@ -150,6 +150,7 @@ GROUP BY B.nombre, C.nombre
 ORDER BY B.nombre;
 ```
 
+
 # Funciones
 
 - ### Realizar una función que reciba como parametros, un DNI y dos fechas, con el fin de que muestre la suma total de todas las multas correspondientes a un cliente entre dichas fechas:
@@ -220,4 +221,111 @@ BEGIN
     WHERE ISBN = unISBN;
     RETURN CantPrestamos;
 END $$
+```
+# Procedimientos
+
+- ### Crear los SP necesarios para dar de alta en todas las tablas:
+
+```sql
+
+```
+
+# Triggers
+
+- ### Crear un trigger que al hacer un insert en Calificacion, saque el promedio de todas las calificaciones de la calificacion del libro seleccionado, y actualize con ese valor en la correspondiente fila en la tabla Libro: 
+
+```sql
+DELIMITER $$
+DROP TRIGGER IF EXISTS aftInsCalificacion $$
+CREATE TRIGGER aftInsCalificacion AFTER INSERT ON Calificacion
+FOR EACH ROW
+BEGIN
+    UPDATE Libro
+    SET calificacion = (SELECT AVG(calificacion)
+                       FROM Calificacion
+                       WHERE ISBN = NEW.ISBN)
+    WHERE ISBN = NEW.ISBN;
+END $$
+```
+
+- ### Crear un trigger que no permita hacer un prestamo, si el libro no se encuentra disponible (Libro.disponible):
+
+```sql
+DELIMITER $$
+DROP TRIGGER IF EXISTS befInsPrestamo $$
+CREATE TRIGGER befInsPrestamo BEFORE INSERT ON Prestamo
+FOR EACH ROW
+BEGIN
+    IF (!(SELECT disponible
+          FROM Libro
+          WHERE ISBN = NEW.ISBN))
+    THEN
+        SIGNAL SQLSTATE "45000"
+        SET MESSAGE_TEXT = "El libro que se quiere utilizar no se encuentra disponible";
+    END IF;
+END $$
+```
+
+- ### Crear un trigger befInsPrestamo donde el cliente haga un prestamo si es que no tiene mas de 3 sanciones:
+
+```sql
+DELIMITER $$
+DROP TRIGGER IF EXISTS befInsPrestamo $$
+CREATE TRIGGER befInsPrestamo BEFORE INSERT ON Prestamo
+FOR EACH ROW
+BEGIN
+    IF(3 < (SELECT COUNT(*) 
+       FROM Sancion 
+       JOIN Prestamo USING (idPrestamo) 
+       WHERE DNI = NEW.DNI))
+    THEN
+        SIGNAL SQLSTATE "45000"
+        SET MESSAGE_TEXT = "No se puede hacer un prestamo debido a que el Cliente que lo solita posee mas de tres sanciones";
+    ELSE IF(FALSE = (SELECT disponible
+                     FROM Libro
+                     WHERE ISBN = NEW.ISBN))
+    THEN
+        SIGNAL SQLSTATE "45000"
+        SET MESSAGE_TEXT = "No se puede efectuar un prestamo sobre un libro que no se encuentra disponible (Libro.disponible = 0)";
+    END IF;
+END $$
+```
+
+
+# Check
+
+- ### Crear un Check el cual no permita ingresar valores de calificaciones menores a 0 ni mayores que 10:
+
+```sql
+CREATE TABLE Calificacion(
+    idCalificacion INT UNSIGNED,
+    ISBN INT UNSIGNED,
+    DNI INT UNSIGNED,
+    calificacion TINYINT UNSIGNED,
+
+    CONSTRAINT PK_Calificacion PRIMARY KEY (idCalificacion),
+
+    CONSTRAINT FK_Calificacion_Libro FOREIGN KEY (ISBN)
+        REFERENCES Libro (ISBN),
+    CONSTRAINT FK_Calificacion_Cliente FOREIGN KEY (DNI)
+        REFERENCES Cliente (DNI),
+    
+    CONSTRAINT CHK_Calificacion CHECK (calificacion BETWEEN 0 AND 10)
+);
+```
+
+- ### Crear un Check que valide si la fecha de fallecimiento del Autor es menor que la fecha de nacimiento, en el caso de que lo sea, no debera permitir el insert:
+
+```sql
+CREATE TABLE Autor(
+    idAutor INT UNSIGNED,
+    nombre VARCHAR(45) NOT NULL,
+    bibliografia VARCHAR(500) NOT NULL,
+    nacimiento DATE NOT NULL,
+    fallecimiento DATE,
+
+    CONSTRAINT PK_Genero PRIMARY KEY (idAutor),
+    
+    CONSTRAINT CHK_Autor CHECK (fallecimiento IS NULL OR fallecimiento > nacimiento)
+);
 ```

@@ -23,7 +23,8 @@ INSERT INTO Autor(idAutor, nombre, bibliografia, nacimiento, fallecimiento)
            (3, "Isaias", "Copado", "2003-02-24", NULL),
            (4, "Alina", "Mala gente y se trago una radio", "2008-02-14", NULL),
            (5, "Fabrizzio", "El jajas", "2007-06-15", NULL),
-           (6, "Rodolfa", "Naci en San Petesburgo, y vole unos aviones que se estrellaron", "2007-01-05", NULL)
+           (6, "Rodolfa", "Naci en San Petesburgo, y vole unos aviones que se estrellaron", "2007-01-05", NULL),
+           (7, "Rodolfa", "Naci en San Petesburgo, y vole unos aviones que se estrellaron", "2007-01-05", "2008-01-01")
     ;
 
 INSERT INTO Cliente (DNI, nombre, apellido)

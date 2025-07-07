@@ -8,6 +8,7 @@ BEGIN
        VALUES (unIdBibliotecario, unNombre, unInicioHoraLaboral, unFinHoraLaboral);
 END $$
 
+
 DELIMITER $$
 DROP PROCEDURE IF EXISTS altaGenero $$
 CREATE PROCEDURE altaGenero (unIdGenero TINYINT UNSIGNED, unGenero VARCHAR(45))
@@ -15,9 +16,7 @@ BEGIN
    INSERT INTO Genero (idGenero, genero)
        VALUES (unIdGenero, unGenero);
 END $$
-
-
-
+z
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS altaAutor $$
@@ -26,8 +25,6 @@ BEGIN
    INSERT INTO Autor (idAutor, nombre, bibliografia, nacimiento, fallecimiento)
        VALUES( unIdAutor, unNombre, unaBibliografia, unNacimiento, unFallecimiento);
 END $$
-
-
 
 
 DELIMITER $$
@@ -39,13 +36,13 @@ BEGIN
 END $$
 
 
-/* DELIMITER $$
+DELIMITER $$
 DROP PROCEDURE IF EXISTS altaLibro $$
-CREATE PROCEDURE altaLibro (unISBN INT, unIdAutor INT, unIdOtroAutor INT, unIdGenero TINYINT UNSIGNED, unTitulo VARCHAR(45), unaPublicacion DATE, unaCalificacion Decimal(10-2), taDisponible BOOL)
+CREATE PROCEDURE altaLibro (unISBN INT, unIdAutor INT, unIdOtroAutor INT, unIdGenero TINYINT UNSIGNED, unTitulo VARCHAR(45), unaPublicacion DATE, unaCalificacion Decimal(10,2))
 BEGIN
-    INSERT INTO Libro (ISBN, idAutor, idOtroAutor, idGenero, Titulo, Publicacion, calificacion, disponible)
-        VALUES(unISBN, unIdAutor, unIdOtroAutor, unIdGenero, unTitulo, unaPublicacion, unaCalificacion, taDisponible);
-END $$ */
+    INSERT INTO Libro (ISBN, idAutor, idOtroAutor, idGenero, Titulo, Publicacion, calificacion)
+        VALUES(unISBN, unIdAutor, unIdOtroAutor, unIdGenero, unTitulo, unaPublicacion, unaCalificacion);
+END $$
 
 
 DELIMITER $$
@@ -59,10 +56,10 @@ END $$
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS altaSancion $$
-CREATE PROCEDURE altaSancion (unIdSancion INT UNSIGNED, unIdBibliotecario INT UNSIGNED, idPrestamo INT UNSIGNED,  unaFechaEmision DATE, unaMulta DECIMAL(10,2))
+CREATE PROCEDURE altaSancion (unIdSancion INT UNSIGNED, unIdBibliotecario INT UNSIGNED, unIdPrestamo INT UNSIGNED, unaFechaEmision DATE, unaMulta DECIMAL(10,2))
 BEGIN
     INSERT INTO Sancion (idSancion, idBibliotecario, idPrestamo, fechaEmision, Multa)
-    VALUES(unIdSancion, unIdBibliotecario, idPrestamo,  unaFechaEmision, unaMulta);
+    VALUES(unIdSancion, unIdBibliotecario, unIdPrestamo, unaFechaEmision, unaMulta);
 END $$
 
 
@@ -75,10 +72,7 @@ BEGIN
 END $$
 
 
-
-
 -- Hacer un procedimiento para ver cuantos prestamos se hicieron en tal mes.
-
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS prestamosEn $$
@@ -89,27 +83,22 @@ BEGIN
     JOIN Libro L using (ISBN)
     JOIN Cliente CL using (DNI)
     JOIN Bibliotecario BI using (idBibliotecario)
-    WHERE MONTH(Prestamo.fechaEntrega) = unMes
-    AND YEAR(Prestamo.fechaEntrega) = unAnio
-    ORDER BY Prestamo.fechaEntrega ASC;
+    WHERE MONTH(P.fechaEntrega) = unMes
+    AND YEAR(P.fechaEntrega) = unAnio
+    ORDER BY P.fechaEntrega ASC;
 END $$
 
 
 -- Eliminar un libro si no está en un prestamo activo.
 
-
 DELIMITER $$
+DROP PROCEDURE IF EXISTS bajaLibroSiNoPrestado $$
 CREATE PROCEDURE bajaLibroSiNoPrestado (unISBN INT)
 BEGIN
-    DECLARE libroEnPrestamo INT;
-
-    SELECT COUNT(*) INTO libroEnPrestamo
-    FROM Prestamo
-    JOIN Prestamo_Libro using (idPrestamo)
-    WHERE Prestamo_Libro.ISBN = unISBN
-    AND NOT Prestamo.devuelto;
-
-    IF libroEnPrestamo > 0 THEN
+    IF (EXISTS (SELECT *
+                FROM Prestamo_Libro
+                WHERE ISBN = unISBN))
+    THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'No se puede eliminar el libro; está activo en uno o mas prestamos.';
     ELSE
@@ -128,6 +117,5 @@ BEGIN
         UPDATE Libro
         SET disponible = FALSE  
         WHERE ISBN = unISBN;
-
     END IF;
 END $$
