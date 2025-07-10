@@ -1,4 +1,3 @@
-USE bd_biblioteca;
 DELIMITER $$
 DROP TRIGGER IF EXISTS aftInsCalificacion $$
 CREATE TRIGGER aftInsCalificacion AFTER INSERT ON Calificacion
@@ -11,7 +10,6 @@ BEGIN
     WHERE ISBN = NEW.ISBN;
 END $$
 
--- Realizar un trigger befInsPrestamo donde el cliente haga un prestamo si es que no tiene mas de 3 sanciones.
 
 DELIMITER $$
 DROP TRIGGER IF EXISTS befInsPrestamo $$
@@ -24,9 +22,9 @@ BEGIN
        WHERE DNI = NEW.DNI))
     THEN
         SIGNAL SQLSTATE "45000"
-        SET MESSAGE_TEXT = "No se puede hacer un prestamo debido a que el Cliente que lo solita posee mas de tres sanciones";
+        SET MESSAGE_TEXT = "No se puede hacer un prestamo debido a que el Cliente que lo solicita posee mas de tres sanciones";
 
-    ELSE IF(FALSE = (SELECT disponible
+    ELSEIF(FALSE = (SELECT disponible
                      FROM Libro
                      WHERE ISBN = NEW.ISBN))
     THEN
@@ -35,7 +33,6 @@ BEGIN
     END IF;
 END $$
 
--- No se puede hacer un prestamo si el libro no esta disponible:
 
 DELIMITER $$
 DROP TRIGGER IF EXISTS befInsPrestamo $$

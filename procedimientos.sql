@@ -1,5 +1,3 @@
--- Crear los SP necesarios para dar de alta en todas las tablas:
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS altaBibliotecario $$
 CREATE PROCEDURE altaBibliotecario (unIdBibliotecario INT, unNombre VARCHAR(45), unInicioHoraLaboral TIME, unFinHoraLaboral TIME)
@@ -16,7 +14,7 @@ BEGIN
    INSERT INTO Genero (idGenero, genero)
        VALUES (unIdGenero, unGenero);
 END $$
-z
+
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS altaAutor $$
@@ -71,9 +69,6 @@ BEGIN
     VALUES(unIdCalificacion, unISBN, unDNI, unaCalificacion);
 END $$
 
-
--- Hacer un procedimiento para ver cuantos prestamos se hicieron en tal mes.
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS prestamosEn $$
 CREATE PROCEDURE prestamosEn(unMes INT, unAnio INT)
@@ -88,8 +83,6 @@ BEGIN
     ORDER BY P.fechaEntrega ASC;
 END $$
 
-
--- Eliminar un libro si no está en un prestamo activo.
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS bajaLibroSiNoPrestado $$
