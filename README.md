@@ -499,3 +499,11 @@ CREATE TABLE Autor(
     CONSTRAINT CHK_Autor CHECK (fallecimiento IS NULL OR fallecimiento > nacimiento)
 );
 ```
+
+# Indices
+
+- ### Los usuarios buscan frecuentemente por el titulo del libro:
+
+```sql 
+CREATE INDEX indiceTitulo ON Libro(titulo);
+```
