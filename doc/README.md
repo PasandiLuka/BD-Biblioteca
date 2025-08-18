@@ -61,7 +61,7 @@ Calificacion{
     intUnsigned ISBN FK
     intUnsigned DNI FK
     Decimal(10-2) calificacion
-} 8 horas para volver a su 
+}
 
 Prestamo_Libro{
     intUnsigned idPrestamo PK, FK
