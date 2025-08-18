@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Core", "Biblioteca.Core\Biblioteca.Core.csproj", "{3728E6C1-C069-49DC-A809-1761AEA4BD50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Dapper", "Biblioteca.Dapper\Biblioteca.Dapper.csproj", "{AB6C8FAC-5952-4B4D-B2CE-2ED8F349D6D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca.Test", "Biblioteca.Test\Biblioteca.Test.csproj", "{425A2C03-8438-46CD-849B-D7471F096FFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3728E6C1-C069-49DC-A809-1761AEA4BD50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3728E6C1-C069-49DC-A809-1761AEA4BD50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3728E6C1-C069-49DC-A809-1761AEA4BD50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3728E6C1-C069-49DC-A809-1761AEA4BD50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB6C8FAC-5952-4B4D-B2CE-2ED8F349D6D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB6C8FAC-5952-4B4D-B2CE-2ED8F349D6D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB6C8FAC-5952-4B4D-B2CE-2ED8F349D6D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB6C8FAC-5952-4B4D-B2CE-2ED8F349D6D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{425A2C03-8438-46CD-849B-D7471F096FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{425A2C03-8438-46CD-849B-D7471F096FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{425A2C03-8438-46CD-849B-D7471F096FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{425A2C03-8438-46CD-849B-D7471F096FFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
