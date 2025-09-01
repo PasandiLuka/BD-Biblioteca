@@ -9,4 +9,8 @@ public interface IRepoLibro
     IEnumerable<Autor> GetAutores();
     void AltaAutor(Autor autor);
     Autor? DetalleAutor(uint idAutor);
+
+    IEnumerable<Calificacion> GetCalificaciones();
+    void AltaCalificacion(Calificacion calificacion);
+    Calificacion? DetalleCalificacion(uint idCalificacion);
 }

@@ -1,4 +1,5 @@
 using System.Data;
+using System.Data.Common;
 using System.Runtime.CompilerServices;
 using Biblioteca.Core.Persistencia;
 using Dapper;
@@ -41,7 +42,7 @@ public class RepoLibro : Repo, IRepoLibro
 
     #region Autor
     private static readonly string _queryAutores
-        = @"SELECT idAutor, nombre, bibliografia, nacimiento, fallecimiento FROM Autor";
+        = "SELECT idAutor, nombre, bibliografia, nacimiento, fallecimiento FROM Autor";
     public IEnumerable<Autor> GetAutores() => _conexion.Query<Autor>(_queryAutores);
 
     private static readonly string _queryAltaAutor
@@ -61,5 +62,28 @@ public class RepoLibro : Repo, IRepoLibro
     private static readonly string _queryUnAutorPorId
         = @"SELECT idAutor, nombre, bibliografia, nacimiento, fallecimiento FROM Autor WHERE idAutor = @idAutor LIMIT 1";
     public Autor? DetalleAutor(uint idAutor) => _conexion.QueryFirstOrDefault<Autor>(_queryUnAutorPorId, new { idAutor = idAutor });
+    #endregion
+
+
+    #region Calificacion
+    private static readonly string _queryCalificaciones
+        = "SELECT * FROM  Calificacion";
+    public IEnumerable<Calificacion> GetCalificaciones() => _conexion.Query<Calificacion>(_queryCalificaciones);
+    private static readonly string _queryAltaCalificacion
+        = @"INSERT INTO Autor VALUES (@idCalificacion, @ISBN, @DNI, @calificacion)";
+    public void AltaCalificacion(Calificacion calificacion)
+    {
+        _conexion.Execute(_queryAltaCalificacion,
+                          new
+                          {
+                              idCalificacion = calificacion.idCalificacion,
+                              ISBN = calificacion.ISBN,
+                              DNI = calificacion.DNI,
+                              calificacion = calificacion.calificacion
+                          });
+    }
+    private static readonly string _queryUnaCalificacionPorId
+        =  @"SELECT * FROM calificacion WHERE idCalificacion = @idCalificacion LIMIT 1";
+    public Calificacion? DetalleCalificacion(uint idCalificacion) => _conexion.QueryFirstOrDefault<Calificacion>(_queryUnaCalificacionPorId, new{idCalificacion = idCalificacion});
     #endregion
 }
