@@ -83,7 +83,16 @@ public class RepoLibro : Repo, IRepoLibro
                           });
     }
     private static readonly string _queryUnaCalificacionPorId
-        =  @"SELECT * FROM calificacion WHERE idCalificacion = @idCalificacion LIMIT 1";
-    public Calificacion? DetalleCalificacion(uint idCalificacion) => _conexion.QueryFirstOrDefault<Calificacion>(_queryUnaCalificacionPorId, new{idCalificacion = idCalificacion});
+        = @"SELECT * FROM calificacion WHERE idCalificacion = @idCalificacion LIMIT 1";
+    public Calificacion? DetalleCalificacion(uint idCalificacion) => _conexion.QueryFirstOrDefault<Calificacion>(_queryUnaCalificacionPorId, new { idCalificacion = idCalificacion });
+    #endregion
+
+    #region Libro
+    private static readonly string _queryLibro
+        = "SELECT * FROM Libro";
+    public IEnumerable<Libro> GetLibros() => _conexion.Query<Libro>(_queryLibro);
+
+    private static readonly string _queryAltaLibro
+        = @"INSERT INTO Libro VALUES (@ISBN)";
     #endregion
 }
