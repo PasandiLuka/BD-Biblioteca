@@ -93,6 +93,26 @@ public class RepoLibro : Repo, IRepoLibro
     public IEnumerable<Libro> GetLibros() => _conexion.Query<Libro>(_queryLibro);
 
     private static readonly string _queryAltaLibro
-        = @"INSERT INTO Libro VALUES (@ISBN)";
+        = @"INSERT INTO Libro VALUES (@ISBN, @idAutor, @idOtroAutor, @idGenero, @titulo, @publicacion, @calificacion, @disponible)";
+
+    public void AltaLibro(Libro libro)
+    {
+        _conexion.Execute(_queryAltaLibro,
+                         new
+                         {
+                             ISBN = libro.ISBN,
+                             idAutor = libro.idAutor,
+                             idOtroAutor = libro.idOtroAutor,
+                             idGenero = libro.idGenero,
+                             titulo = libro.titulo,
+                             publicacion = libro.publicacion,
+                             calificacion = libro.calificacion,
+                             disponible = libro.disponible
+                         });
+    }
+
+    private static readonly string _queryUnLibroPorId
+        = @"SELECT * FROM Libro WHERE ISBN = @ISBN LIMIT 1";
+    public Libro? DetalleLibro(uint ISBN) => _conexion.QueryFirstOrDefault<Libro>(_queryUnLibroPorId, new{ISBN = ISBN});
     #endregion
 }

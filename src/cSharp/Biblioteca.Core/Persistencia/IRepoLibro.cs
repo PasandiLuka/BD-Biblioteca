@@ -13,4 +13,8 @@ public interface IRepoLibro
     IEnumerable<Calificacion> GetCalificaciones();
     void AltaCalificacion(Calificacion calificacion);
     Calificacion? DetalleCalificacion(uint idCalificacion);
+
+    IEnumerable<Libro> GetLibros();
+    void AltaLibro(Libro libro);
+    Libro? DetalleLibro(uint ISBN);
 }
